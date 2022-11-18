@@ -27,18 +27,18 @@ public class SmsService {
 	
 	@Autowired
 	private SaleRepository saleRepository;
-
+	
+	
 	public void sendSms(Long saleId) {
 		
 		Sale sale = saleRepository.findById(saleId).get();
 		
-		String date = sale.getDate().getDayOfMonth()
+		String date = sale.getDate().getDayOfMonth() 
 				+ "/" + sale.getDate().getMonthValue() 
 				+ "/" + sale.getDate().getYear();
 		
-		String msg = "\nSeller: " + sale.getSeller()
-				+ "\nDate: " + date
-				+ "\nAmount: $" + String.format("%.2f", sale.getAmount());
+		String msg = "Seller: " + sale.getSeller() + " - Date: " + date
+				+ " - Amount: $" + sale.getAmount();
 		
 		Twilio.init(twilioSid, twilioKey);
 		
@@ -48,5 +48,6 @@ public class SmsService {
 		Message message = Message.creator(to, from, msg).create();
 		
 		System.out.println(message.getSid());
+		System.out.println(msg);
 	}
 }
